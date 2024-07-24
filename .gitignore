@@ -1,0 +1,79 @@
+# Common Ignored Files
+
+# Node modules
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
+
+# Dependency directories
+client/.pnp
+client/.pnp.js
+server/.pnp
+server/.pnp.js
+
+# Optional npm cache directory
+client/.npm
+server/.npm
+
+# Optional eslint cache
+client/.eslintcache
+server/.eslintcache
+
+# Optional REPL history
+client/.node_repl_history
+server/.node_repl_history
+
+# dotenv environment variables file
+client/.env
+client/.env.test
+server/.env
+server/.env.test
+
+# build directories
+client/build
+client/dist
+server/build
+server/dist
+
+# IDE specific files
+.vscode/
+client/.vscode/
+server/.vscode/
+.idea/
+client/.idea/
+server/.idea/
+
+# Miscellaneous
+client/.next
+server/.next
+
+# npm package log
+client/package-lock.json
+server/package-lock.json
+
+# yarn lock file
+client/yarn.lock
+server/yarn.lock
+
+# SASS artifacts
+client/*.css.map
+server/*.css.map
+
+# CI/CD
+client/.circleci/
+server/.circleci/
+
+# Coverage directory used by tools like istanbul
+client/coverage
+server/coverage
