@@ -8,27 +8,34 @@ const cookieParser = require('cookie-parser');
 const { json, urlencoded } = express;
 const seedAdminUser = require('./models/SeedingData');
 const routes = require('./routes/index');
+const helmet = require('helmet');
 
 // app
 
 const app = express();
 //db
 connectDB();
-seedAdminUser();
+
+// Seeding User
+// seedAdminUser();
+
 //middleware
 app.use(morgan('dev'));
 app.use(cors({ origin: true, credentials: true }));
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(helmet());
 
 //routes
 app.use('/', routes);
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
+});
 
 //port
 const port = process.env.PORT || 8080;
 
 //listener
-const server = app.listen(port, () =>
-  console.log(`Server is running on port ${port}`)
-);
+app.listen(port, () => console.log(`Server is running on port ${port}`));
