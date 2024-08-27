@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const uuid = require('uuid');
 const crypto = require('crypto');
+const roles = require('./roles');
 
 //schema
 const userSchema = new mongoose.Schema(
@@ -22,6 +23,10 @@ const userSchema = new mongoose.Schema(
     hashedPassword: {
       type: String,
       required: true
+    },
+    role: {
+      type: Number,
+      default: roles.USER
     },
     salt: String
   },
@@ -51,4 +56,6 @@ userSchema.methods = {
     return this.encryptPassword(plainText) === this.hashedPassword;
   }
 };
-module.exports = mongoose.model('User', userSchema);
+
+const User = mongoose.model('User', userSchema);
+module.exports = User;

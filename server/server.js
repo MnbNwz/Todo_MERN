@@ -6,6 +6,7 @@ const morgan = require('morgan');
 require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const { json, urlencoded } = express;
+const seedAdminUser = require('./models/SeedingData');
 const routes = require('./routes/index');
 
 // app
@@ -13,6 +14,7 @@ const routes = require('./routes/index');
 const app = express();
 //db
 connectDB();
+seedAdminUser();
 //middleware
 app.use(morgan('dev'));
 app.use(cors({ origin: true, credentials: true }));
