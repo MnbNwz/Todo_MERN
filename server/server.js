@@ -1,25 +1,28 @@
 // imports
-const express = require('express');
-const connectDB = require('./config/db');
-const cors = require('cors');
-const morgan = require('morgan');
-require('dotenv').config();
-const cookieParser = require('cookie-parser');
-const { json, urlencoded } = express;
-const seedAdminUser = require('./models/SeedingData');
-const routes = require('./routes/index');
-const helmet = require('helmet');
+import express from 'express';
+import connectDB from './config/db.js';
+import cors from 'cors';
+import morgan from 'morgan';
+import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
+import { json, urlencoded } from 'express';
+import { seedAdminUser } from './models/SeedingData.js';
+import routes from './routes/index.js';
+import helmet from 'helmet';
+
+// Initialize dotenv
+dotenv.config();
 
 // app
-
 const app = express();
-//db
+
+// Connect to database
 connectDB();
 
 // Seeding User
 // seedAdminUser();
 
-//middleware
+// middleware
 app.use(morgan('dev'));
 app.use(cors({ origin: true, credentials: true }));
 app.use(json());
@@ -27,15 +30,15 @@ app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(helmet());
 
-//routes
+// routes
 app.use('/', routes);
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something went wrong!');
 });
 
-//port
+// port
 const port = process.env.PORT || 8080;
 
-//listener
+// listener
 app.listen(port, () => console.log(`Server is running on port ${port}`));

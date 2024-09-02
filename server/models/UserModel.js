@@ -1,10 +1,12 @@
-const mongoose = require('mongoose');
-const uuid = require('uuid');
-const crypto = require('crypto');
-const roles = require('./roles');
+import mongoose from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
+import crypto from 'crypto';
+import roles from './roles.js'; // Ensure the correct path and file extension
 
-//schema
-const userSchema = new mongoose.Schema(
+const { Schema } = mongoose;
+
+// Schema definition
+const userSchema = new Schema(
   {
     username: {
       type: String,
@@ -33,12 +35,13 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-//virtual field
+// Virtual field
 userSchema.virtual('password').set(function (password) {
   this._password = password;
-  this.salt = uuid.v4();
+  this.salt = uuidv4();
   this.hashedPassword = this.encryptPassword(password);
 });
+
 userSchema.methods = {
   encryptPassword: function (password) {
     if (!password) return '';
@@ -58,4 +61,5 @@ userSchema.methods = {
 };
 
 const User = mongoose.model('User', userSchema);
-module.exports = User;
+
+export default User;

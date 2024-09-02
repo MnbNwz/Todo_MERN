@@ -1,7 +1,5 @@
-// backend/config/db.js
-
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
 dotenv.config();
 const DB = process.env.MONGO_URI;
@@ -15,7 +13,11 @@ const connectDB = async () => {
   }
 
   try {
-    connection = await mongoose.connect(DB, {});
+    connection = await mongoose.connect(DB, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000 // Optional: Set a timeout for server selection
+    });
     console.log(`MongoDB Connected: ${connection.connection.host}`);
     return connection; // Return the new connection
   } catch (error) {
@@ -26,9 +28,14 @@ const connectDB = async () => {
 
 // Handling graceful shutdown
 process.on('SIGINT', async () => {
-  await mongoose.connection.close();
-  console.log('MongoDB connection closed due to app termination');
-  process.exit(0);
+  try {
+    await mongoose.connection.close();
+    console.log('MongoDB connection closed due to app termination');
+  } catch (err) {
+    console.error('Error closing MongoDB connection:', err);
+  } finally {
+    process.exit(0);
+  }
 });
 
-module.exports = connectDB;
+export default connectDB;
